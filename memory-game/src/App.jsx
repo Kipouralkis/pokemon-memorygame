@@ -5,6 +5,9 @@ import Footer from './components/Footer'
 
 function App() {
   const [cards, setCards] = useState([]);
+  const [clcikedIds, setClickedIds] = useState([]);
+  const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   async function fetchPokemon(id){
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
@@ -12,7 +15,7 @@ function App() {
     const name = data.name;
     const imgURL = data.sprites.other.dream_world.front_default;
     if (name && imgURL) {
-      return { name, imgURL };
+      return { id, name, imgURL };
     } 
   }
 
@@ -42,14 +45,34 @@ function App() {
   }
 
   useEffect(()=> {
-    fetchMultiplePokemon(14);
+    fetchMultiplePokemon(4);
     console.log(cards);
   }, [])
+
+  function handleCardClicks(id){
+    if(clcikedIds.includes(id)) {
+      setGameOver(true);
+    } else {
+      const newClicked = [...clcikedIds, id];
+      setClickedIds(newClicked);
+      setScore(newClicked.length);
+
+      if (newClicked.length === cards.length) {
+        alert("You win!!!");
+      }
+    }
+  }
 
   return (
      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
-      <Content cards={cards}/>
+       {gameOver && (
+          alert("You Lost!")
+        )}
+      <Content 
+        cards={cards}
+        handleClick={handleCardClicks}
+        />
       <Footer />
     </div>
   )

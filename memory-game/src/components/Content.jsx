@@ -11,8 +11,14 @@ function Content(props) {
   return (
     <main style={{ flex: 1, padding: '2rem' }}>
       <div className={`card-grid ${layoutClass}`}>
-        {props.cards.map((card, index) => {
-          return <Card key={index} imgURL={card.imgURL} name={card.name} layoutClass={layoutClass}/>
+        {props.cards.map(card => {
+          return <Card 
+            key={card.id} 
+            imgURL={card.imgURL} 
+            name={card.name} 
+            layoutClass={layoutClass} 
+            onClick={() => props.handleClick(card.id)}
+          />
         })}
       </div>
     </main>
