@@ -37,7 +37,7 @@ function App() {
   }
 
   useEffect(()=> {
-    fetchMultiplePokemon(5);
+    fetchMultiplePokemon(14);
     console.log(cards);
   }, [])
 

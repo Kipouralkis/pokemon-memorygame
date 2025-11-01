@@ -1,11 +1,20 @@
 import Card from './content/Card';
+import '../styles/content.css';
 
 function Content(props) {
+
+  const layoutClass = 
+    props.cards.length <=8? 'narrow' :
+    props.cards.length >= 14 ? 'compact':
+    'default';
+
   return (
     <main style={{ flex: 1, padding: '2rem' }}>
-      {props.cards.map((card, index) => {
-        return <Card key={index} imgURL={card.imgURL} name={card.name}/>
-      })}
+      <div className={`card-grid ${layoutClass}`}>
+        {props.cards.map((card, index) => {
+          return <Card key={index} imgURL={card.imgURL} name={card.name} layoutClass={layoutClass}/>
+        })}
+      </div>
     </main>
   );
 }
