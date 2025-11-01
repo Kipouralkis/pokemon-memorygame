@@ -25,6 +25,15 @@ function App() {
     return shuffled.slice(0,num);
   }
 
+  function shuffle(array){
+    const copy = [...array];
+    for (let i = copy.length - 1; i>0; i--){
+      const j = Math.floor(Math.random() * (i+1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy
+  }
+
   // This function fetches multiple random Pokémon from the API
   // It's marked as 'async' so we can use 'await' inside it
   // 'await' lets us pause the function until all fetches are done
@@ -59,9 +68,12 @@ function App() {
 
       if (newClicked.length === cards.length) {
         alert("You win!!!");
+      } else {
+        setCards(shuffle(cards));
       }
     }
   }
+
 
   return (
      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
