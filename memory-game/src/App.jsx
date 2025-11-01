@@ -41,14 +41,17 @@ function App() {
     // fetchPokemon(1).then(pokemon => {
     //   console.log(pokemon);
     // })
-    fetchMultiplePokemon(2);
+    fetchMultiplePokemon(5);
     console.log(cards);
   }, [])
 
   return (
      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
-      <Content />
+      <Content cards={cards}/>
+      {/* {cards.map((card, index) => {
+        return <p key={index}>{card.name}</p>;
+      })} */}
       <Footer />
     </div>
   )
