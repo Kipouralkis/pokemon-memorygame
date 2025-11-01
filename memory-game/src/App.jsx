@@ -13,7 +13,6 @@ function App() {
       const name = data.name;
       const imgURL = data.sprites.other.dream_world.front_default;
       if (name && imgURL) {
-        // console.log(name, imgURL)
         return {name, imgURL};
       }
     }); 
@@ -38,9 +37,6 @@ function App() {
   }
 
   useEffect(()=> {
-    // fetchPokemon(1).then(pokemon => {
-    //   console.log(pokemon);
-    // })
     fetchMultiplePokemon(5);
     console.log(cards);
   }, [])
@@ -49,9 +45,6 @@ function App() {
      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
       <Content cards={cards}/>
-      {/* {cards.map((card, index) => {
-        return <p key={index}>{card.name}</p>;
-      })} */}
       <Footer />
     </div>
   )
