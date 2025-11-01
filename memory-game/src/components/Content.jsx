@@ -10,7 +10,7 @@ function Content(props) {
 
   return (
     <main style={{ flex: 1, padding: '2rem' }}>
-      <div className={`card-grid ${layoutClass}`}>
+      <div className={`card-grid ${layoutClass} ${props.isShuffling ? 'fade' : ''}`}>
         {props.cards.map(card => {
           return <Card 
             key={card.id} 

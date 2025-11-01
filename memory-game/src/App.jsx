@@ -9,6 +9,8 @@ function App() {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
+  const [isShuffling, setIsShuffling] = useState(false);
+
   async function fetchPokemon(id){
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     const data = await response.json();
@@ -69,7 +71,12 @@ function App() {
       if (newClicked.length === cards.length) {
         alert("You win!!!");
       } else {
-        setCards(shuffle(cards));
+        // setCards(shuffle(cards));
+        setIsShuffling(true);
+        setTimeout(()=> {
+          setCards(shuffle(cards));
+          setIsShuffling(false);
+        }, 200)
       }
     }
   }
@@ -77,13 +84,14 @@ function App() {
 
   return (
      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Header />
+      <Header score={score}/>
        {gameOver && (
           alert("You Lost!")
         )}
       <Content 
         cards={cards}
         handleClick={handleCardClicks}
+        isShuffling={isShuffling}
         />
       <Footer />
     </div>
