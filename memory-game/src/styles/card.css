@@ -1,0 +1,6 @@
+.card-body{
+    height:350px;
+    width:250px;
+    background-color:rgb(145, 196, 104);
+    border-radius: 15px;
+}
