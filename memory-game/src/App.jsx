@@ -6,16 +6,20 @@ import Footer from './components/Footer'
 function App() {
   const [cards, setCards] = useState([]);
 
-  function fetchPokemon(id){
-    return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-    .then(response => response.json())
-    .then(data => {
-      const name = data.name;
-      const imgURL = data.sprites.other.dream_world.front_default;
-      if (name && imgURL) {
-        return {name, imgURL};
-      }
-    }); 
+  async function fetchPokemon(id){
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    const data = await response.json();
+    const name = data.name;
+    const imgURL = data.sprites.other.dream_world.front_default;
+    if (name && imgURL) {
+      return { name, imgURL };
+    } 
+  }
+
+  function getUniqueRandomNumbers(num, max){
+    const numbers = Array.from({ length: max }, (_, i) => i + 1);
+    const shuffled = numbers.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0,num);
   }
 
   // This function fetches multiple random Pokémon from the API
@@ -24,9 +28,10 @@ function App() {
   async function fetchMultiplePokemon(num) {
     const promises = [];
 
+    const randomIds = getUniqueRandomNumbers(num, 500);
+
     for (let i=0; i<num; i++) {
-      const randomId = Math.floor(Math.random() * 100) + 1;
-      promises.push(fetchPokemon(randomId));
+      promises.push(fetchPokemon(randomIds[i]));
     }
 
     // wait to all fetches to complete before continuing
