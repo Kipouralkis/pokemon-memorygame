@@ -7,6 +7,7 @@ function App() {
   const [cards, setCards] = useState([]);
   const [clcikedIds, setClickedIds] = useState([]);
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
   const [isShuffling, setIsShuffling] = useState(false);
@@ -55,6 +56,15 @@ function App() {
     setCards(pokemon);
   }
 
+
+  useEffect(() => {
+    const storedScore = localStorage.getItem('highScore');
+    if (storedScore) {
+      setHighScore(parseInt(storedScore));
+    }
+  }, []);
+
+
   useEffect(()=> {
     fetchMultiplePokemon(4);
     console.log(cards);
@@ -71,20 +81,25 @@ function App() {
       if (newClicked.length === cards.length) {
         alert("You win!!!");
       } else {
-        // setCards(shuffle(cards));
         setIsShuffling(true);
         setTimeout(()=> {
           setCards(shuffle(cards));
           setIsShuffling(false);
         }, 200)
       }
+
+      if (newClicked.length>highScore){
+        setHighScore(newClicked.length);
+        localStorage.setItem('highScore', newClicked.length);
+      }
+
     }
   }
 
 
   return (
      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Header score={score}/>
+      <Header score={score} highScore={highScore} />
        {gameOver && (
           alert("You Lost!")
         )}
