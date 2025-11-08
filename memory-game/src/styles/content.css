@@ -1,3 +1,16 @@
+main {
+  background: var(--page-bg) ;
+  background-size: 600% 600%;
+  animation: gradientShift 10s ease infinite;
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+}
+
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

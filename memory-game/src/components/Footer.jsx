@@ -1,8 +1,10 @@
-// Footer.js
+import '../styles/footer.css'
+
 function Footer() {
   return (
-    <footer style={{ backgroundColor: 'black', color: '#fff', padding: '1rem', textAlign: 'center' }}>
-      <p>© 2025 My Website</p>
+    <footer>
+      <p>©{new Date().getFullYear()} <a href="https://github.com/kipouralkis" target="_blank" rel="noopener noreferrer">Kipouralkis</a></p>
+      <p>Pokémon data provided by <a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer">PokéAPI</a></p>
     </footer>
   );
 }

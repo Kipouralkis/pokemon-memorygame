@@ -1,7 +1,8 @@
-// Header.js
+import '../styles/header.css'
+
 function Header(props) {
   return (
-    <header style={{ backgroundColor: 'black', color: '#fff', padding: '1rem', textAlign: 'center' }}>
+    <header>
       <h1>Gotta Catch Them All!! (only once !!)</h1>
       <br />
       <p>Score: {props.score}</p>

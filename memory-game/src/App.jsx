@@ -2,6 +2,7 @@ import { useState , useEffect} from 'react'
 import Header from './components/Header'
 import Content from './components/Content'
 import Footer from './components/Footer'
+import typeThemes from './themes/typeThemes'
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -10,6 +11,24 @@ function App() {
   const [highScore, setHighScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
+  // theme management
+  const [themeType, setTheme] = useState('electric');
+  const currentTheme = typeThemes[themeType];
+
+  // runs every time themeType changes
+  useEffect(() => {
+    // looks up the current theme from the file
+    const theme = typeThemes[themeType];
+    // targets the root element
+    const root = document.documentElement;
+
+    // turn object into an array of key-value pairs and assign to root properties
+    Object.entries(theme).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
+    })
+  }, [themeType]);
+
+  // card shuffling
   const [isShuffling, setIsShuffling] = useState(false);
 
   async function fetchPokemon(id){
@@ -66,7 +85,7 @@ function App() {
 
 
   useEffect(()=> {
-    fetchMultiplePokemon(4);
+    fetchMultiplePokemon(8);
     console.log(cards);
   }, [])
 
@@ -98,8 +117,8 @@ function App() {
 
 
   return (
-     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Header score={score} highScore={highScore} />
+     <div className='layout'>
+      <Header score={score} highScore={highScore}/>
        {gameOver && (
           alert("You Lost!")
         )}
@@ -108,7 +127,8 @@ function App() {
         handleClick={handleCardClicks}
         isShuffling={isShuffling}
         />
-      <Footer />
+      <Footer/>
+      {console.log(currentTheme)}
     </div>
   )
 }
