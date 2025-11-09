@@ -5,6 +5,7 @@ import Footer from './components/Footer'
 import typeThemes from './themes/typeThemes'
 import WinScreen from './components/content/WinScreen'
 import LossScreen from './components/content/LossScreen'
+import {fetchPokemon, getUniqueRandomNumbers, shuffle} from './utils/utils'
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -14,9 +15,25 @@ function App() {
   const [gameResult, setGameResult] = useState(null);
   const [difficulty, setDifficulty] = useState(8);
 
+  // card shuffling
+  const [isShuffling, setIsShuffling] = useState(false);
+
   // theme management
   const [themeType, setTheme] = useState('water');
   const currentTheme = typeThemes[themeType];
+
+  // store high score
+  useEffect(() => {
+    const storedScore = localStorage.getItem('highScore');
+    if (storedScore) {
+      setHighScore(parseInt(storedScore));
+    }
+  }, []);
+
+  // fetch pokemon according to difficulty
+  useEffect(()=> {
+    fetchMultiplePokemon(difficulty);
+  }, [])
 
   // runs every time themeType changes
   useEffect(() => {
@@ -31,100 +48,58 @@ function App() {
     })
   }, [themeType]);
 
-  // card shuffling
-  const [isShuffling, setIsShuffling] = useState(false);
-
-  async function fetchPokemon(id){
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    const data = await response.json();
-    const name = data.name;
-    const imgURL = data.sprites.other.dream_world.front_default;
-    if (name && imgURL) {
-      return { id, name, imgURL };
-    } 
-  }
-
-  function getUniqueRandomNumbers(num, max){
-    const numbers = Array.from({ length: max }, (_, i) => i + 1);
-    const shuffled = numbers.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0,num);
-  }
-
-  function shuffle(array){
-    const copy = [...array];
-    for (let i = copy.length - 1; i>0; i--){
-      const j = Math.floor(Math.random() * (i+1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-    return copy
-  }
-
+  // FUNCTIONS
+  
   // This function fetches multiple random Pokémon from the API
   // It's marked as 'async' so we can use 'await' inside it
   // 'await' lets us pause the function until all fetches are done
   async function fetchMultiplePokemon(num) {
-    const promises = [];
+      const promises = [];
+      const randomIds = getUniqueRandomNumbers(num, 500);
 
-    const randomIds = getUniqueRandomNumbers(num, 500);
+      for (let i=0; i<num; i++) {
+        promises.push(fetchPokemon(randomIds[i]));
+      }
 
-    for (let i=0; i<num; i++) {
-      promises.push(fetchPokemon(randomIds[i]));
-    }
+      // wait to all fetches to complete before continuing
+      const pokemon = await Promise.all(promises);
 
-    // wait to all fetches to complete before continuing
-    const pokemon = await Promise.all(promises);
-
-    // Update state
-    setCards(pokemon);
+      // Update state
+      setCards(pokemon);
   }
 
-
-  useEffect(() => {
-    const storedScore = localStorage.getItem('highScore');
-    if (storedScore) {
-      setHighScore(parseInt(storedScore));
-    }
-  }, []);
-
-
-  useEffect(()=> {
-    fetchMultiplePokemon(difficulty);
-    console.log(cards);
-  }, [])
-
   function handleCardClicks(id){
-    if(clickedIds.includes(id)) {
-      setGameResult('loss')
-    } else {
-      const newClicked = [...clickedIds, id];
-      setClickedIds(newClicked);
-      setScore(newClicked.length);
-
-      if (newClicked.length === cards.length) {
-        setGameResult('win');
+      if(clickedIds.includes(id)) {
+        setGameResult('loss')
       } else {
-        setIsShuffling(true);
-        setTimeout(()=> {
-          setCards(shuffle(cards));
-          setIsShuffling(false);
-        }, 200)
-      }
+        const newClicked = [...clickedIds, id];
+        setClickedIds(newClicked);
+        setScore(newClicked.length);
 
-      if (newClicked.length>highScore){
-        setHighScore(newClicked.length);
-        localStorage.setItem('highScore', newClicked.length);
-      }
+        if (newClicked.length === cards.length) {
+          setGameResult('win');
+        } else {
+          setIsShuffling(true);
+          setTimeout(()=> {
+            setCards(shuffle(cards));
+            setIsShuffling(false);
+          }, 200)
+        }
 
-    }
+        if (newClicked.length>highScore){
+          setHighScore(newClicked.length);
+          localStorage.setItem('highScore', newClicked.length);
+        }
+
+      }
   }
 
   function resetGame() {
-    setClickedIds([]);
-    setScore(0);
-    setGameResult(null);
-    fetchMultiplePokemon(difficulty);
+      setClickedIds([]);
+      setScore(0);
+      setGameResult(null);
+      fetchMultiplePokemon(difficulty);
   }
-
 
   return (
      <div className='layout'>
@@ -137,7 +112,6 @@ function App() {
         isShuffling={isShuffling}
         />
       <Footer/>
-      {console.log(currentTheme)}
     </div>
   )
 }
