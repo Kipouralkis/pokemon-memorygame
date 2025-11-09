@@ -1,0 +1,78 @@
+/* base */
+
+.result-screen{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* ensures it's above everything */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 24px;
+    opacity: 0.9;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  font-family: inherit;
+  font-weight: 500;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* result */
+
+
+.result-screen.win {
+    background: linear-gradient(135deg, #a8e063, #56ab2f);
+    text-shadow: 0 0 10px #88ff61;
+}
+
+.result-screen.loss {
+    background: linear-gradient(135deg, #b11c1f, #470505);
+    color: rgb(255, 255, 255);
+    text-shadow: 0 0 10px #ffa1a1;
+}
+
+.result-screen.win button {
+  background: linear-gradient(90deg, #56ab2f, #1e7036);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(86, 171, 47, 0.4);
+}
+
+.result-screen.win button:hover {
+  background: linear-gradient(90deg, #6fcf3f, #b3ff80);
+  box-shadow: 0 6px 16px rgba(86, 171, 47, 0.6);
+  transform: scale(1.05);
+  color: black;
+}
+
+.result-screen.loss button {
+  background: rgb(255, 170, 58);
+  color: black;
+  box-shadow: 0 4px 12px rgba(255, 78, 80, 0.4);
+}
+
+.result-screen.loss button:hover {
+  background: linear-gradient(90deg, #b30000, #ff6a6a);
+  box-shadow: 0 6px 16px rgba(255, 78, 80, 0.6);
+  transform: scale(1.05);
+  color: white;
+}

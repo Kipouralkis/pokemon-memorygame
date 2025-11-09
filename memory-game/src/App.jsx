@@ -3,16 +3,19 @@ import Header from './components/Header'
 import Content from './components/Content'
 import Footer from './components/Footer'
 import typeThemes from './themes/typeThemes'
+import WinScreen from './components/content/WinScreen'
+import LossScreen from './components/content/LossScreen'
 
 function App() {
   const [cards, setCards] = useState([]);
-  const [clcikedIds, setClickedIds] = useState([]);
+  const [clickedIds, setClickedIds] = useState([]);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-  const [gameOver, setGameOver] = useState(false);
+  const [gameResult, setGameResult] = useState(null);
+  const [difficulty, setDifficulty] = useState(8);
 
   // theme management
-  const [themeType, setTheme] = useState('electric');
+  const [themeType, setTheme] = useState('water');
   const currentTheme = typeThemes[themeType];
 
   // runs every time themeType changes
@@ -85,20 +88,20 @@ function App() {
 
 
   useEffect(()=> {
-    fetchMultiplePokemon(8);
+    fetchMultiplePokemon(difficulty);
     console.log(cards);
   }, [])
 
   function handleCardClicks(id){
-    if(clcikedIds.includes(id)) {
-      setGameOver(true);
+    if(clickedIds.includes(id)) {
+      setGameResult('loss')
     } else {
-      const newClicked = [...clcikedIds, id];
+      const newClicked = [...clickedIds, id];
       setClickedIds(newClicked);
       setScore(newClicked.length);
 
       if (newClicked.length === cards.length) {
-        alert("You win!!!");
+        setGameResult('win');
       } else {
         setIsShuffling(true);
         setTimeout(()=> {
@@ -115,13 +118,19 @@ function App() {
     }
   }
 
+  function resetGame() {
+    setClickedIds([]);
+    setScore(0);
+    setGameResult(null);
+    fetchMultiplePokemon(difficulty);
+  }
+
 
   return (
      <div className='layout'>
       <Header score={score} highScore={highScore}/>
-       {gameOver && (
-          alert("You Lost!")
-        )}
+        {gameResult === 'win' && (<WinScreen score={score} onClick={resetGame}/>)}
+        {gameResult === 'loss' && (<LossScreen score={score} highScore={highScore} difficulty={difficulty} onClick={resetGame}/>)}
       <Content 
         cards={cards}
         handleClick={handleCardClicks}
