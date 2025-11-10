@@ -1,0 +1,18 @@
+.options-button{
+    grid-column: 3 / 4;
+    max-width: fit-content;
+    max-height: fit-content;
+    /* justify-self: end; */
+    align-self: end;
+
+    background: var(--card-bg);
+    color: rgb(0, 0, 0);
+    border: 3px dotted var(--header-text);
+}
+
+.options-button:hover {
+  background: var(--page-bg);
+  color: white;
+  border: 3px dotted white;
+  transition: transform 0.2s ease;
+}

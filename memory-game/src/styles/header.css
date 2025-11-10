@@ -2,5 +2,12 @@ header {
     background: var(--header-bg);
     color: var(--header-text);
     padding: 1rem;
+
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+}
+
+.header-text{
+    grid-column: 2/3 ;
     text-align: center;
 }
