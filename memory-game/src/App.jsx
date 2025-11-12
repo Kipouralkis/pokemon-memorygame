@@ -13,10 +13,16 @@ function App() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [gameResult, setGameResult] = useState(null);
-  const [difficulty, setDifficulty] = useState(8);
+  const [difficulty, setDifficulty] = useState(10);
 
   // card shuffling
   const [isShuffling, setIsShuffling] = useState(false);
+
+  // options button
+  const [showOptions, setShowOptions] = useState(false);
+  const toggleOptions = () => {
+    setShowOptions(prev => !prev);
+  }
 
   // theme management
   const [themeType, setTheme] = useState('water');
@@ -103,13 +109,19 @@ function App() {
 
   return (
      <div className='layout'>
-      <Header score={score} highScore={highScore}/>
-        {gameResult === 'win' && (<WinScreen score={score} onClick={resetGame}/>)}
-        {gameResult === 'loss' && (<LossScreen score={score} highScore={highScore} difficulty={difficulty} onClick={resetGame}/>)}
+      <Header 
+        score={score} 
+        highScore={highScore}
+        toggleOptions={toggleOptions}
+      />
+      {gameResult === 'win' && (<WinScreen score={score} onClick={resetGame}/>)}
+      {gameResult === 'loss' && (<LossScreen score={score} highScore={highScore} difficulty={difficulty} onClick={resetGame}/>)}
       <Content 
         cards={cards}
         handleClick={handleCardClicks}
         isShuffling={isShuffling}
+        showOptions={showOptions}
+        themeVars ={[themeType, setTheme]}
         />
       <Footer/>
     </div>

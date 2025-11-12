@@ -1,5 +1,4 @@
 import '../styles/header.css'
-import OptionsButton from './options/OptionsButton';
 
 function Header(props) {
   return (
@@ -10,7 +9,7 @@ function Header(props) {
         <p>Score: {props.score}</p>
         <p>High Score: {props.highScore}</p>
       </div>
-      <OptionsButton />
+      <button className='options-button' onClick={props.toggleOptions}>Options</button>
     </header>
   );
 }

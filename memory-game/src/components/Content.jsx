@@ -1,5 +1,6 @@
 import Card from './content/Card';
 import '../styles/content.css';
+import OptionsPanel from './options/OptionsPanel';
 
 function Content(props) {
 
@@ -9,7 +10,7 @@ function Content(props) {
     'default';
 
   return (
-    <main style={{ flex: 1, padding: '2rem' }}>
+    <main style={{ flex: 1, padding: '2rem', position: 'relative'}}>
       <div className={`card-grid ${layoutClass} ${props.isShuffling ? 'fade' : ''}`}>
         {props.cards.map(card => {
           return <Card 
@@ -21,6 +22,9 @@ function Content(props) {
           />
         })}
       </div>
+      {props.showOptions && (
+        <OptionsPanel themeVars={props.themeVars}/>
+      )}
     </main>
   );
 }
