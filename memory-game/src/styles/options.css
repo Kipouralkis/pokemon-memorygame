@@ -40,3 +40,37 @@
   border-color: var(--header-bg);
   font-weight: bold;
 }
+
+
+.difficulty-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.difficulty-button {
+  padding: 0.5rem 1rem;
+  border: 2px solid transparent;
+  background: var(--card-bg);
+  color: var(--header-text);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.difficulty-button:hover {
+  border-color: var(--card-border);
+  background: var(--card-hover);
+}
+
+.difficulty-button.active {
+  border-color: var(--header-bg);
+  font-weight: bold;
+}
+
+.custom-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}

@@ -23,7 +23,7 @@ function Content(props) {
         })}
       </div>
       {props.showOptions && (
-        <OptionsPanel themeVars={props.themeVars}/>
+        <OptionsPanel themeVars={props.themeVars} difficultyVars={props.difficultyVars}/>
       )}
     </main>
   );

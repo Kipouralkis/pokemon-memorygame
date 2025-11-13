@@ -9,7 +9,6 @@ function Card(props) {
       </div>
       <p>{props.name}</p>
     </div>
-    {console.log(props.currentTheme)}
     </>
   );
 }

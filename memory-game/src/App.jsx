@@ -13,7 +13,37 @@ function App() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [gameResult, setGameResult] = useState(null);
-  const [difficulty, setDifficulty] = useState(10);
+
+  // difficulty managment
+  const difficultySettings = {
+    easy: 8,
+    normal: 12,
+    hard: 16,
+    custom: null // will use customValue
+  };
+  const [difficulty, setDifficulty] = useState('normal');
+  const [customValue, setCustomValue] = useState(10);
+  const [cardCount, setCardCount] = useState(difficultySettings[difficulty]);
+  useEffect(()=> {
+    if (difficulty !== 'custom') {
+      setCardCount(difficultySettings[difficulty]);
+    }
+  }, [difficulty])
+
+  // fetch pokemon according to difficulty
+  useEffect(()=> {
+    fetchMultiplePokemon(cardCount);
+    setShowOptions(false);
+  }, [cardCount])
+
+  function applyDifficultySettings() {
+    if (difficulty === 'custom') {
+      setCardCount(customValue);
+    } else {
+      setCardCount(difficultySettings[difficulty]);
+    }
+    setShowOptions(false);
+  }
 
   // card shuffling
   const [isShuffling, setIsShuffling] = useState(false);
@@ -35,11 +65,6 @@ function App() {
       setHighScore(parseInt(storedScore));
     }
   }, []);
-
-  // fetch pokemon according to difficulty
-  useEffect(()=> {
-    fetchMultiplePokemon(difficulty);
-  }, [])
 
   // runs every time themeType changes
   useEffect(() => {
@@ -104,7 +129,7 @@ function App() {
       setClickedIds([]);
       setScore(0);
       setGameResult(null);
-      fetchMultiplePokemon(difficulty);
+      fetchMultiplePokemon(cardCount);
   }
 
   return (
@@ -122,6 +147,7 @@ function App() {
         isShuffling={isShuffling}
         showOptions={showOptions}
         themeVars ={[themeType, setTheme]}
+        difficultyVars = {{difficulty, setDifficulty, customValue, setCustomValue, applyDifficultySettings}}
         />
       <Footer/>
     </div>
