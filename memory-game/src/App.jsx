@@ -48,6 +48,14 @@ function App() {
   // card shuffling
   const [isShuffling, setIsShuffling] = useState(false);
 
+  // store high score
+  useEffect(() => {
+    const storedScore = localStorage.getItem('highScore');
+    if (storedScore) {
+      setHighScore(parseInt(storedScore));
+    }
+  }, []);
+
   // options button
   const [showOptions, setShowOptions] = useState(false);
   const toggleOptions = () => {
@@ -58,11 +66,21 @@ function App() {
   const [themeType, setTheme] = useState('water');
   const currentTheme = typeThemes[themeType];
 
-  // store high score
+  // used to synch button animations
   useEffect(() => {
-    const storedScore = localStorage.getItem('highScore');
-    if (storedScore) {
-      setHighScore(parseInt(storedScore));
+    // remove the class first
+    document.body.classList.remove("sync");
+    // force a reflow so the browser notices the removal
+    void document.body.offsetWidth;
+    // add it back — this restarts the animation
+    document.body.classList.add("sync");
+  }, [themeType]);
+
+  // read stored theme
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('storedTheme');
+    if (storedTheme) {
+      setTheme(storedTheme);
     }
   }, []);
 
@@ -139,8 +157,8 @@ function App() {
         highScore={highScore}
         toggleOptions={toggleOptions}
       />
-      {gameResult === 'win' && (<WinScreen score={score} onClick={resetGame}/>)}
-      {gameResult === 'loss' && (<LossScreen score={score} highScore={highScore} difficulty={difficulty} onClick={resetGame}/>)}
+      {gameResult === 'win' && (<WinScreen score={cardCount} onClick={resetGame}/>)}
+      {gameResult === 'loss' && (<LossScreen score={score} highScore={highScore} difficulty={cardCount} onClick={resetGame}/>)}
       <Content 
         cards={cards}
         handleClick={handleCardClicks}

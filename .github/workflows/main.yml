@@ -2,7 +2,8 @@ name: Deploy Vite app to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
+    tags:
+      - "v*.*.*"     # e.g., v1.0.0
 
 jobs:
   build-and-deploy:
@@ -12,21 +13,50 @@ jobs:
         working-directory: ./memory-game
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm install
+      - name: Use clean install
+        run: npm ci
+
+      - name: Set build base for GitHub Pages
+        run: |
+          echo "Ensure your vite.config.ts has: export default defineConfig({ base: '/<REPO_NAME>/' })"
+          # If your repo is username.github.io, set base: '/' instead
 
       - name: Build project
         run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: memory-game-dist
+          path: ./memory-game/dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./memory-game/dist
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+
+  create-release:
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

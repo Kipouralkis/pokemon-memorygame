@@ -1,16 +1,18 @@
 .options-panel{
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 300px;
-    /* height: 100vh; */
-    min-height: 100%;
-    background: var(--content-bg);
-    border-left: 1px solid var(--card-border);
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
-    padding: 1rem;
-    z-index: 1000;
-    transition: transform 0.3s ease;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  /* height: 100vh; */
+  min-height: 100%;
+  background: var(--content-bg);
+  color: rgba(255, 255, 255, 0.815);
+  border-left: 1px solid var(--card-border);
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  z-index: 100;
+  transition: transform 0.3s ease;
+  text-align: center;
 }
 
 .theme-options {
@@ -20,27 +22,10 @@
   gap: 0.5rem;
 }
 
-.theme-button {
-  padding: 0.5rem 1rem;
-  border: 2px solid transparent;
-  background: var(--card-bg);
-  color: var(--header-text);
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  /* color: black; */
-}
-
-.theme-button:hover {
-  border-color: var(--card-border);
-  background-color: var(--card-hover);
-}
-
 .theme-button.active {
   border-color: var(--header-bg);
   font-weight: bold;
 }
-
 
 .difficulty-options {
   display: flex;
@@ -49,7 +34,7 @@
   margin-bottom: 1rem;
 }
 
-.difficulty-button {
+.difficulty-button, .theme-button {
   padding: 0.5rem 1rem;
   border: 2px solid transparent;
   background: var(--card-bg);
@@ -59,14 +44,9 @@
   transition: all 0.2s ease;
 }
 
-.difficulty-button:hover {
-  border-color: var(--card-border);
-  background: var(--card-hover);
-}
-
-.difficulty-button.active {
-  border-color: var(--header-bg);
-  font-weight: bold;
+.difficulty-button:hover, .theme-button:hover {
+  box-shadow: 0 0 20px 4px var(--card-hover);
+  border: 2px solid white;
 }
 
 .custom-input {

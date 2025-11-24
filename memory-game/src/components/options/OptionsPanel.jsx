@@ -7,7 +7,9 @@ function OptionsPanel(props){
     return(
         <div className='options-panel'>
             <h1>Options Menu</h1>
+            <hr style={{margin:"1rem"}}/>
              <DifficultySelector difficultyVars={props.difficultyVars} />
+             <br></br>
             <ThemeSelector themeVars={props.themeVars}/>
         </div>
     )
