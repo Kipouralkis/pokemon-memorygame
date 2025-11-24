@@ -5,7 +5,7 @@ function WinScreen(props) {
         <div className="result-screen win">
             <h2>You won!</h2>
             <p>You caught them all!!</p>
-            <p>Difficulty: {props.score}</p>
+            <p>Difficulty: {props.score} Cards </p>
             <button onClick={props.onClick}>Play Again</button>
         </div>
     )

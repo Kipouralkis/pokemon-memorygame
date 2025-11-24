@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 350px;
+  width: 450px;
   position: relative;
 }
 
@@ -71,7 +71,7 @@
 
 .pokeball-content p {
   color: #003344;
-  line-height: 1.4;
+  line-height: 2;
 }
 
 .pokeball-content button {
@@ -94,26 +94,43 @@
   to { opacity: 1; transform: scale(1); }
 }
 
-
 .instructions-btn {
-  background-color: #ffffff;
+  position: relative; /* anchor tooltip */
+  background-color: var(--header-text);
+  color: var(--header-bg);
+  border: 2px solid var(--header-text);
   width: 2.5rem;
   height: 2.5rem;
-  border: none;
   border-radius: 50%;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: background 0.3s;
   margin-left: 0.5rem;
-
-  line-height: 2.5rem; /* match height for vertical centering */
-  text-align: center;  /* horizontal centering */
-  padding: 0;          /* remove padding */
+  line-height: 2.5rem;
+  text-align: center;
+  padding: 0;
 }
 
-.instructions-btn:hover {
-  background-color: #2e2e2e;
-  color: white;
+.instructions-btn::after {
+  content: "How to Play";
+  position: absolute;
+  bottom: 110%; /* place above button */
+  left: 250%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.562); /* test with a visible color */
+  color: rgb(63, 63, 63);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  border: 2px solid var(--header-text);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+  font-size: 0.8rem;
 }
 
-
+.instructions-btn:hover::after,
+.instructions-btn:focus::after {
+  opacity: 1;
+}

@@ -7,7 +7,7 @@ function Card(props) {
       <div className="pokeimg">
          <img src={props.imgURL} alt={props.name}></img>
       </div>
-      <p>{props.name}</p>
+      <p style={{textTransform:'capitalize'}}>{props.name}</p>
     </div>
     </>
   );

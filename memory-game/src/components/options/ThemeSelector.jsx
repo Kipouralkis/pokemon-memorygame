@@ -10,16 +10,21 @@ function ThemeSelector(props) {
 
     console.log('typeThemes:', themeType);
 
+    function handleThemeClick(theme){
+        setTheme(theme);
+        localStorage.setItem('storedTheme', theme);
+    }
+
     return(
         <div>
-            <h3>Theme Selector</h3>
+            <h3>Select Theme</h3>
             <div className="option-group">
                 <div className='theme-options'>
                     {themes.map((theme) => (
                         <button 
-                            className='theme-button'
+                            className={`theme-button ${theme === themeType ? 'active' : ''}`}
                             key={theme}
-                            onClick={()=>setTheme(theme)}>{theme}
+                            onClick={()=>handleThemeClick(theme)}>{theme}
                         </button>
                     ))}
                 </div>

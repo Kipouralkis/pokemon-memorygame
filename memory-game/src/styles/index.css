@@ -25,10 +25,21 @@ body {
   font-family: sans-serif;
   background-color: var(--page-bg);
   font-family: 'Orbitron', sans-serif;
+  background-color: var(--content-bg);
 }
 
 .layout{
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+body.sync button.active {
+  outline: 2px solid var(--header-bg);
+  animation: outlinePulse 1s infinite alternate;
+}
+
+@keyframes outlinePulse {
+  from { outline-offset: 0px; }
+  to   { outline-offset: 6px; }
 }
